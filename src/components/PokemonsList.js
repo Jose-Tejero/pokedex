@@ -11,6 +11,8 @@ const PokemonsList = () => {
     const [ types, setTypes ] = useState([]);
     const [ pokemonSearched, setPokemonSearched ] = useState('');
     const [check, setCheck] = useState(false);
+    const [ page, setPage ] = useState(1);
+    const [ pokemonPerPage, setPokemonPerPage ] = useState(8);
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -31,10 +33,23 @@ const PokemonsList = () => {
 
     const search = () => navigate(`/pokemons/${pokemonSearched}`);
 
+    const lastPokemonIndex = page * pokemonPerPage;
+    const firstPokemonIndex = lastPokemonIndex - pokemonPerPage;
+
+    const paginatedPokemons = pokemons.slice(firstPokemonIndex, lastPokemonIndex);
+
+    const totalPages = Math.ceil(pokemons.length / pokemonPerPage);
+
+    console.log(totalPages)
+
     return (
         <div className='grid-cards' >
             <h1>¡Hola {name}!</h1>
             <p>Todos los pokémon</p>
+            <label>
+                Pokémon por página:
+                <input className='per-page' type="text" onChange={e => setPokemonPerPage(e.target.value)} />
+            </label>
             <div className="center">
                 <input type="checkbox" onChange={e => setCheck(e.target.checked)} />
             </div>
@@ -66,13 +81,22 @@ const PokemonsList = () => {
             }
             <ul className='pokemons-list' >
                 {
-                    pokemons.map(pokemon => (
+                    paginatedPokemons.map(pokemon => (
                         <li key={pokemon.url} className='pokemon-column' >
                             <PokemonInfo url={pokemon.url} />
                         </li>
                     ))
                 }
             </ul>
+            <div className="buttons-pag">
+                {
+                    page !== 1 && (<button onClick={() => setPage(page - 1)} >Prev</button>)
+                }
+                <p>{page}/{totalPages}</p>
+                {
+                    page !== totalPages && (<button onClick={() => setPage(page + 1)}>Next</button>)
+                }
+            </div>
         </div>
     );
 };

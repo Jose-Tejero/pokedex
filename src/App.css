@@ -74,6 +74,7 @@ input:hover, select:hover {
 }
 
 .pokemons-list {
+  width: 900px;
   display: flex;
   justify-content: space-evenly;
   flex-wrap: wrap;
@@ -166,4 +167,17 @@ input[type='checkbox']::before {
 
 input:checked[type='checkbox']:before {
   left: 40px;
+}
+
+.buttons-pag {
+  display: inherit;
+  gap: 10px;
+}
+
+.per-page {
+  width: 50px;
+}
+
+.center {
+  transform: scale(0.5);
 }
