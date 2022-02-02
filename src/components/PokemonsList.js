@@ -10,6 +10,7 @@ const PokemonsList = () => {
     const [ pokemons, setPokemons ] = useState([]);
     const [ types, setTypes ] = useState([]);
     const [ pokemonSearched, setPokemonSearched ] = useState('');
+    const [check, setCheck] = useState(false);
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -28,22 +29,41 @@ const PokemonsList = () => {
             .then(res => setPokemons(res.data.pokemon.map(e => e.pokemon)));
     }
 
-    const search = () => navigate(`/pokemons/${pokemonSearched}`)
+    const search = () => navigate(`/pokemons/${pokemonSearched}`);
 
     return (
         <div className='grid-cards' >
             <h1>¡Hola {name}!</h1>
             <p>Todos los pokémon</p>
-            <select defaultValue={'Por tipo'} onChange={e => filterTypes(e.target.value)} >
-                <option value='Por tipo' disabled >Por tipo</option>
-                {
-                    types.map((type, i) => (
-                        <option key={i} value={i}>{type.name}</option>
-                    ))
-                }
-            </select>
-            <input type="text" value={pokemonSearched} onChange={e => setPokemonSearched(e.target.value)} />
-            <button onClick={search} >Submit</button>
+            <div className="center">
+                <input type="checkbox" onChange={e => setCheck(e.target.checked)} />
+            </div>
+            {
+                check ? (
+                    <select
+                        defaultValue={'Por tipo'}
+                        onChange={e => filterTypes(e.target.value)}
+                    >
+                        <option value='Por tipo' disabled >Por tipo</option>
+                        {
+                            types.map((type, i) => (
+                                <option key={i} value={i}>{type.name}</option>
+                            ))
+                        }
+                    </select>
+                ) : (
+                    <form className='form-search' >
+                        <input
+                            placeholder='Por nombre'
+                            className='input-name-pokemon'
+                            type="text"
+                            value={pokemonSearched}
+                            onChange={e => setPokemonSearched(e.target.value)}
+                        />
+                        <button className='ir-button sing-in' onClick={search} ></button>
+                    </form>
+                )
+            }
             <ul className='pokemons-list' >
                 {
                     pokemons.map(pokemon => (
