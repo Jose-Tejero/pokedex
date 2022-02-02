@@ -7,6 +7,11 @@ const PokemonsList = () => {
 
     const name = useSelector(state => state.name);
     const [ pokemons, setPokemons ] = useState([]);
+    const [ search, setSearch ] = useState('');
+
+    const filterPokemon = e => {
+        e.preventDefault();
+    }
 
     useEffect(() => {
         axios.get('https://pokeapi.co/api/v2/pokemon/?limit=150&offset=0')
@@ -17,9 +22,14 @@ const PokemonsList = () => {
         <div className='grid-cards' >
             <h1>¡Hola {name}!</h1>
             <p>Todos los pokémon</p>
-            <input
-                type="text"
-            />
+            <form action="" onChange={filterPokemon} >
+                <input
+                    type="text"
+                    placeholder='Buscar un pokémon'
+                    value={search}
+                    onChange={e => setSearch(e.target.value)}
+                />
+            </form>
             <ul className='pokemons-list' >
                 {
                     pokemons.map(pokemon => (
