@@ -1,23 +1,25 @@
-import logo from './logo.svg';
 import './App.css';
+import { HashRouter, Routes, Route } from 'react-router-dom';
+import NameForm from './components/NameForm';
+import PokemonsList from './components/PokemonsList';
+import ProtectedRoutes from './components/ProtectedRoutes';
+import PokemonDetail from './components/PokemonDetail';
 
 function App() {
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <HashRouter>
+        <Routes>
+
+          <Route path='/' element={<NameForm />} />
+
+          <Route element={<ProtectedRoutes />} >
+            <Route path='/pokemons' element={<PokemonsList />} />
+            <Route path='/pokemons/:id' element={<PokemonDetail />} />
+          </Route>
+
+        </Routes>
+      </HashRouter>
     </div>
   );
 }
