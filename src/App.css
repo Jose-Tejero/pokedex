@@ -16,7 +16,7 @@ section, .app {
   text-align: center;
 }
 
-input {
+input, select {
   border-radius: 16px;
   border: 2px solid transparent;
   margin: 10px;
@@ -26,7 +26,7 @@ input {
   transition: 0.1s linear;
 }
 
-input:hover {
+input:hover, select:hover {
   box-shadow: 0 0 5px 5px rgba(0, 0, 0, 0.15);
 }
 

@@ -16,7 +16,7 @@ const PokemonDetail = () => {
         <section>
             <h1>PokemonDetail</h1>
             <h2>{pokemon.name}</h2>
-            <img src={pokemon.sprites?.other?.dream_world?.front_default} alt="" />
+            <img src={pokemon.sprites?.other?.dream_world?.front_default} alt="Pokémon desconocido" />
         </section>
     );
 };
