@@ -12,12 +12,12 @@ const PokemonInfo = ({ url }) => {
     },[url])
 
     return (
-        <div>
-            <Link to={`/pokemons/${pokemon.id}`} className='pokemon-card' >
+        <Link to={`/pokemons/${pokemon.id}`}>
+            <div className='pokemon-card'>
                 <img src={pokemon.sprites?.other?.dream_world?.front_default} alt="" />
                 <p>{pokemon.name}</p>
-            </Link>
-        </div>
+            </div>
+        </Link>
     );
 };
 
