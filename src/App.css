@@ -62,7 +62,7 @@ input:hover, select:hover {
 }
 
 .App {
-  margin: 70px 70px 0 70px;
+  margin: 25px 70px 0 70px;
 }
 
 .grid-cards {
@@ -71,6 +71,7 @@ input:hover, select:hover {
   justify-content: center;
   align-items: center;
   text-align: center;
+  position: relative;
 }
 
 .pokemons-list {
@@ -175,8 +176,12 @@ input:checked[type='checkbox']:before {
 }
 
 .buttons-pag {
-  display: inherit;
+  position: absolute;
+  display: flex;
+  flex-direction: row;
   gap: 10px;
+  right: 0;
+  top: 0;
 }
 
 .per-page {

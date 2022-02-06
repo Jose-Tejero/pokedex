@@ -7,12 +7,14 @@ import PokemonInfo from './PokemonInfo';
 const PokemonsList = () => {
 
     const name = useSelector(state => state.name);
+    const actualPage = useSelector(state => state.page);
     const [ pokemons, setPokemons ] = useState([]);
     const [ types, setTypes ] = useState([]);
     const [ pokemonSearched, setPokemonSearched ] = useState('');
     const [check, setCheck] = useState(false);
-    const [ page, setPage ] = useState(1);
+    const [ page, setPage ] = useState(actualPage);
     const [ pokemonPerPage, setPokemonPerPage ] = useState(8);
+    const [ newPokemons, setNewPokemons ] = useState([]);
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -36,11 +38,13 @@ const PokemonsList = () => {
     const lastPokemonIndex = page * pokemonPerPage;
     const firstPokemonIndex = lastPokemonIndex - pokemonPerPage;
 
-    const paginatedPokemons = pokemons.slice(firstPokemonIndex, lastPokemonIndex);
+    pokemons.map(e => setNewPokemons.push(e.name));
 
-    const totalPages = Math.ceil(pokemons.length / pokemonPerPage);
+    const letterPokemons = newPokemons.filter(e => e === pokemonSearched);
 
-    console.log(totalPages)
+    const paginatedPokemons = letterPokemons.slice(firstPokemonIndex, lastPokemonIndex);
+
+    const totalPages = Math.ceil(letterPokemons.length / pokemonPerPage);
 
     return (
         <div className='grid-cards' >
@@ -57,7 +61,7 @@ const PokemonsList = () => {
                 check ? (
                     <select
                         defaultValue={'Por tipo'}
-                        onChange={e => filterTypes(e.target.value)}
+                        onChange={e => {filterTypes(e.target.value); setPage(1)}}
                     >
                         <option value='Por tipo' disabled >Por tipo</option>
                         {
@@ -79,24 +83,24 @@ const PokemonsList = () => {
                     </form>
                 )
             }
+            <div className="buttons-pag">
+                {
+                    page !== 1 ? (<button onClick={() => setPage(page - 1)} >Prev</button>) : (<button>Prev</button>) 
+                }
+                <p>{page}/{totalPages}</p>
+                {
+                    page !== totalPages ? (<button onClick={() => setPage(page + 1)}>Next</button>) : (<button>Next</button>)
+                }
+            </div>
             <ul className='pokemons-list' >
                 {
                     paginatedPokemons.map(pokemon => (
                         <li key={pokemon.url} className='pokemon-column' >
-                            <PokemonInfo url={pokemon.url} />
+                            <PokemonInfo url={pokemon.url} page={page}/>
                         </li>
                     ))
                 }
             </ul>
-            <div className="buttons-pag">
-                {
-                    page !== 1 && (<button onClick={() => setPage(page - 1)} >Prev</button>)
-                }
-                <p>{page}/{totalPages}</p>
-                {
-                    page !== totalPages && (<button onClick={() => setPage(page + 1)}>Next</button>)
-                }
-            </div>
         </div>
     );
 };
