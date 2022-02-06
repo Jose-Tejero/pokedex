@@ -33,18 +33,23 @@ const PokemonsList = () => {
             .then(res => setPokemons(res.data.pokemon.map(e => e.pokemon)));
     }
 
-    const search = () => navigate(`/pokemons/${pokemonSearched}`);
+    const search = e => {
+        e.preventDefault();
+        navigate(`/pokemons/${pokemonSearched}`)
+    };
+    
+    console.log(pokemons)
+
+    const filterPokemons = pokemons.filter(pokemon => {
+        return pokemon.name === pokemonSearched.name;
+    });
 
     const lastPokemonIndex = page * pokemonPerPage;
     const firstPokemonIndex = lastPokemonIndex - pokemonPerPage;
-
-    pokemons.map(e => setNewPokemons.push(e.name));
-
-    const letterPokemons = newPokemons.filter(e => e === pokemonSearched);
-
-    const paginatedPokemons = letterPokemons.slice(firstPokemonIndex, lastPokemonIndex);
-
-    const totalPages = Math.ceil(letterPokemons.length / pokemonPerPage);
+    
+    const paginatedPokemons = pokemons.slice(firstPokemonIndex, lastPokemonIndex);
+    
+    const totalPages = Math.ceil(pokemons.length / pokemonPerPage);
 
     return (
         <div className='grid-cards' >
@@ -71,7 +76,7 @@ const PokemonsList = () => {
                         }
                     </select>
                 ) : (
-                    <form className='form-search' >
+                    <form className='form-search'>
                         <input
                             placeholder='Por nombre'
                             className='input-name-pokemon'
@@ -79,7 +84,7 @@ const PokemonsList = () => {
                             value={pokemonSearched}
                             onChange={e => setPokemonSearched(e.target.value)}
                         />
-                        <button className='ir-button sing-in' onClick={search} ></button>
+                        <button onClick={search} className='ir-button sing-in'></button>
                     </form>
                 )
             }

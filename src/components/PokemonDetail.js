@@ -10,7 +10,9 @@ const PokemonDetail = () => {
     useEffect(() => {
         axios.get(`https://pokeapi.co/api/v2/pokemon/${id}/`)
             .then(res => setPokemon(res.data));
-    },[id])
+    },[id]);
+
+    console.log(id);
 
     return (
         <section>
