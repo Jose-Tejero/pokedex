@@ -34,7 +34,10 @@ const PokemonsList = () => {
 
     const search = e => {
         e.preventDefault();
-        navigate(`/pokemons/${pokemonSearched}`)
+        if (paginatedPokemons.length === 1) {
+            console.log(paginatedPokemons)
+            navigate(`/pokemons/${paginatedPokemons[0].name}`)
+        }
     };
 
     /* const filterPokemons = pokemons.filter(pokemon => pokemon.name === pokemonSearched); */
@@ -42,8 +45,6 @@ const PokemonsList = () => {
     const letterPokemons = pokemons.filter(e => {
         return (e.name.includes(pokemonSearched));
     });
-
-    console.log(letterPokemons);
 
     const lastPokemonIndex = page * pokemonPerPage;
     const firstPokemonIndex = lastPokemonIndex - pokemonPerPage;
@@ -100,11 +101,13 @@ const PokemonsList = () => {
             </div>
             <ul className='pokemons-list' >
                 {
-                    paginatedPokemons.map(pokemon => (
-                        <li key={pokemon.url} className='pokemon-column' >
-                            <PokemonInfo url={pokemon.url} page={page}/>
-                        </li>
-                    ))
+                    paginatedPokemons.length ? (
+                        paginatedPokemons.map(pokemon => (
+                            <li key={pokemon.url} className='pokemon-column' >
+                                <PokemonInfo url={pokemon.url} page={page}/>
+                            </li>
+                        ))
+                    ) : (<div>No existe el pokemon</div>)
                 }
             </ul>
         </div>
