@@ -14,7 +14,6 @@ const PokemonsList = () => {
     const [check, setCheck] = useState(false);
     const [ page, setPage ] = useState(actualPage);
     const [ pokemonPerPage, setPokemonPerPage ] = useState(8);
-    const [ newPokemons, setNewPokemons ] = useState([]);
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -37,19 +36,21 @@ const PokemonsList = () => {
         e.preventDefault();
         navigate(`/pokemons/${pokemonSearched}`)
     };
-    
-    console.log(pokemons)
 
-    const filterPokemons = pokemons.filter(pokemon => {
-        return pokemon.name === pokemonSearched.name;
+    /* const filterPokemons = pokemons.filter(pokemon => pokemon.name === pokemonSearched); */
+    
+    const letterPokemons = pokemons.filter(e => {
+        return (e.name.includes(pokemonSearched));
     });
+
+    console.log(letterPokemons);
 
     const lastPokemonIndex = page * pokemonPerPage;
     const firstPokemonIndex = lastPokemonIndex - pokemonPerPage;
     
-    const paginatedPokemons = pokemons.slice(firstPokemonIndex, lastPokemonIndex);
+    const paginatedPokemons = letterPokemons.slice(firstPokemonIndex, lastPokemonIndex);
     
-    const totalPages = Math.ceil(pokemons.length / pokemonPerPage);
+    const totalPages = Math.ceil(letterPokemons.length / pokemonPerPage);
 
     return (
         <div className='grid-cards' >
